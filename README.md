@@ -25,7 +25,7 @@ Then you can create your own database
 create database database-name with owner 'owner name'
 ```
 
-quit the session using ``\``q
+quit the session using ``\q``
 
 ## log in to your database
 Now, you can use your new credential to log in to your newly created database.

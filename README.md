@@ -27,3 +27,25 @@ create database database-name with owner 'owner name'
 
 quit the session using ``\``q
 
+## log in to your database
+Now, you can use your new credential to log in to your newly created database.
+```angular2html
+psql database-name user-name
+```
+check with tables
+```angular2html
+\dt
+```
+check with more details
+```angular2html
+\d+ table-name
+```
+Create table, you need to set property types too, like "VARCHAR(128)"
+```angular2html
+create table table-name(
+col-name type,
+col-name type,
+col-name type
+);
+```
+

@@ -48,4 +48,13 @@ col-name type,
 col-name type
 );
 ```
+## insert data in the table
+First, if you want to make sure the table is clean, try the command
+```angular2html
+DELETE FROM library-name;
+```
+Then, add the data to the library.
+```angular2html
+INSERT INTO library-name (property_1, property_2) VALUES (value_1, value_2);
+```
 

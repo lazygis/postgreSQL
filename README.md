@@ -52,6 +52,23 @@ col-name type,
 col-name type
 );
 ```
+## add columns to the table
+```
+alter table table-name add column column-name column-type column-constraints;
+alter table table-name add primary key (column-name);
+```
+## make the combination of multiple keys unique
+When you create table, you can set the combination of several keys unique.
+```angular2html
+create table track(
+id serial,
+title varchar(128),
+album varchar(128),
+unique (title, album),
+primary key(id)
+);
+```
+In the situation, there is no record have the identical title and album at the same time.
 ## insert data in the table
 First, if you want to make sure the table is clean, try the command
 ```angular2html
@@ -99,4 +116,35 @@ This example gets the 2nd and 3rd records after ordered by one field and in a de
 ## count the number of records
 ```angular2html
 SELECT COUNT(*) FROM table-name WHERE filter
+```
+
+## relational dataset
+Use foreign keys to connect multiple tables. "on delete cascade" in the code means when the user delete the one in a "one to many" relationship, the "many" entries would be deleted, too.
+```angular2html
+create table artist(
+id serial,
+name varchar(128) unique,
+primary key(id)
+);
+
+create table album(
+id serial,
+title varchar(128) unique,
+artist_id integer references artist(id) on delete cascade,
+primary key(id)
+);
+
+```
+## select data with JOIN
+When you want to show keys in multiple tables linked by foreign keys, you should use JOIN.
+```angular2html
+Select album.title, artist.name
+From album
+Join artist ON album.artist = artist.id
+```
+If you want to show all combinations, use cross join.
+```angular2html
+select track.title, track.genre_id, genre.id, genre.name
+from track
+cross join genre.
 ```

@@ -12,6 +12,9 @@ Here is a useful link for installation. [Link](https://www.codementor.io/@engine
 First, you need to set your super user password, when you fist log in.
 ```
 psql -U postgres
+## full command
+psql -h <hostname or ip address> -p <port number of remote machine> -d <database name which you want to connect> -U <username of the database server>
+
 ```
 
 Then, **super user** can create another credential for yourself, because it is risky to use super user to operate the database. Here is the command.
@@ -147,4 +150,15 @@ If you want to show all combinations, use cross join.
 select track.title, track.genre_id, genre.id, genre.name
 from track
 cross join genre.
+```
+## alter table
+You can add, drop, alter columns;
+```angular2html
+alter table table-name drop column column-name;
+alter table table-name alter column column-name type new-type;
+alter table table-name add column column-name column-type
+```
+## run command in file
+```angular2html
+\i xxxxx.sql
 ```

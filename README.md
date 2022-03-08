@@ -162,3 +162,35 @@ alter table table-name add column column-name column-type
 ```angular2html
 \i xxxxx.sql
 ```
+## date and time
+normal formats:
+- Date - "YYYY-MM-DD"
+- Time - "HH:MM:SS"
+- Timestamp - "YYYY-MM-DD HH:MM:SS"
+- Timestamptc - "Timestamp with time zone"
+- built in postgreSQL function NOW()
+
+## distinct and group by
+- DISTINCT only returns unique rows in a result set - and row will only appear once.
+- DISTINCT on limits duplicate removal to a set of columns
+- GROUP BY is combined with aggregate functions like COUNT(), MAX(). SUM(), AVE() ...
+```angular2html
+select distinct column-name from table-name;
+select distinct (distinct column-name) column-name-A, column-name-B... from table-name;
+```
+```angular2html
+select count(column-name), column-name from table-name group by column-name;
+## add where clause and having clause
+## where cannot count() in the clause, but having can
+select count(column-name), column-name from table-name
+where clause group by column-name having clause;
+```
+## subqueries
+Can use a value or set of values in a query that are computed by another query.
+
+People don't like use them in high performance systems.
+
+```angular2html
+# example code
+select content from comment where account_id = (select id from account where email='123@gmail.com')
+```

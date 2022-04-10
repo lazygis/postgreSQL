@@ -194,3 +194,22 @@ People don't like use them in high performance systems.
 # example code
 select content from comment where account_id = (select id from account where email='123@gmail.com')
 ```
+
+## Stored procedure
+If you want to SQL automatically update the updated_time, you can define a function. And, each time the row has been changed, the time would be updated.
+```angular2html
+Create or replace function trigger_set_timestam()
+Returns Trigger as $$
+Begin
+    New.updated_at = Now();
+    return new;
+End;
+$$ language plpgsql;
+```
+And, initiate the trigger.
+```angular2html
+Create Trigger set_timestamp
+before update on post
+for each row
+execute procedure trigger_set_timestamp()
+```

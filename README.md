@@ -185,6 +185,10 @@ select count(column-name), column-name from table-name group by column-name;
 select count(column-name), column-name from table-name
 where clause group by column-name having clause;
 ```
+Example:
+```angular2html
+select state from taxdata order by state ASC limit 5;
+```
 ## subqueries
 Can use a value or set of values in a query that are computed by another query.
 
@@ -198,10 +202,10 @@ select content from comment where account_id = (select id from account where ema
 ## Stored procedure
 If you want to SQL automatically update the updated_time, you can define a function. And, each time the row has been changed, the time would be updated.
 ```angular2html
-Create or replace function trigger_set_timestam()
+Create or replace function trigger_set_timestamp()
 Returns Trigger as $$
 Begin
-    New.updated_at = Now();
+    new.updated_at = Now();
     return new;
 End;
 $$ language plpgsql;
@@ -209,7 +213,52 @@ $$ language plpgsql;
 And, initiate the trigger.
 ```angular2html
 Create Trigger set_timestamp
-before update on post
+before update on Table-name
 for each row
-execute procedure trigger_set_timestamp()
+execute procedure trigger_set_timestamp();
+```
+drop a trigger
+```angular2html
+drop trigger trigger-name on table-name
+```
+
+## Demo reading and parsing files
+```angular2html
+SELECT [ ALL | DISTINCT [ ON ( expression [, ...] ) ] ]
+    [ * | expression [ [ AS ] output_name ] [, ...] ]
+    [ FROM from_item [, ...] ]
+    [ WHERE condition ]
+    [ GROUP BY [ ALL | DISTINCT ] grouping_element [, ...] ]
+    [ HAVING condition ]
+    [ WINDOW window_name AS ( window_definition ) [, ...] ]
+    [ { UNION | INTERSECT | EXCEPT } [ ALL | DISTINCT ] select ]
+    [ ORDER BY expression [ ASC | DESC | USING operator ] [ NULLS { FIRST | LAST } ] [, ...] ]
+    [ LIMIT { count | ALL } ]
+    [ OFFSET start [ ROW | ROWS ] ]
+    [ FETCH { FIRST | NEXT } [ count ] { ROW | ROWS } { ONLY | WITH TIES } ]
+    [ FOR { UPDATE | NO KEY UPDATE | SHARE | KEY SHARE } [ OF table_name [, ...] ] [ NOWAIT | SKIP LOCKED ] [...] ]
+
+```
+
+## loading and normalizing CSV data
+```angular2html
+\copy xy_raw(x, y) from "file-path" with delimiter ',' csv;
+```
+with header:
+```angular2html
+\copy unesco_raw(name,description,justification,year,longitude,latitude,area_hectares,category,state,region,iso) FROM 'whc-sites-2018-small.csv' WITH DELIMITER ',' CSV HEADER;
+```
+initialize and update the foreign table.
+```angular2html
+CREATE TABLE category (
+    id SERIAL,
+    title VARCHAR(128) UNIQUE,
+    PRIMARY KEY(id)
+);
+
+insert into category (name) select distinct category from unesco_raw;
+```
+update the id for the original table
+```angular2html
+update unesco_raw set category_id = (select id from category where unesco_raw.category=category.name);
 ```

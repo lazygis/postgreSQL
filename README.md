@@ -262,3 +262,44 @@ update the id for the original table
 ```angular2html
 update unesco_raw set category_id = (select id from category where unesco_raw.category=category.name);
 ```
+## how to generate test data
+There are several function you can use to generate random test data for your dataset. There are:
+- repeat(): it can generate long strings. Horizontal
+- generate_series(): it can generate rows for the data. Vertically. Like Python Range.
+- Random(): it can generat the random number from 0 to 1. 
+
+"||" is used to concatenate strings
+```angular2html
+insert into table_name (column_name)
+select (case when (random()<0.5)
+        Then 'HelloWorld'
+        else 'GoodBye'
+        end) || repeat('Neon',5) || generate_series(100,200);
+```
+
+## Text function
+
+Where clause:
+- like/ilike/not like/not ilike
+- similar to/no similar to (cover later as regular expressions)
+- =, >, <, >=, <=, in, between
+
+manipulate the result
+- lower(), upper()
+- strpos(column_name, 'string'). find the start position of the string.
+- substr(column_name, start, interval). substring, start from "start" and extract "interval" characters.
+- split_part(column name, spliter, n). split the result and return the nth part.
+- translate(column_name, old_chars, new_chars). replace the old strings to the new ones.
+
+    
+```angular2html
+## search for the content containing "150";
+select content from textfun where content like '%150%';
+select strpos(content,'o') from textfun where content like '%150%';
+select substr(content,2,4) from textfun where content like '%150%';
+select split_part(content,'o',1) from textfun where content like '%150%';
+select translate(content,'eo','EO') from textfun where content like '%150%';
+```
+
+## Tips for text search
+- If you search using like and you know there is only one record that matches, ADD Limit 1.

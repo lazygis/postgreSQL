@@ -301,5 +301,21 @@ select split_part(content,'o',1) from textfun where content like '%150%';
 select translate(content,'eo','EO') from textfun where content like '%150%';
 ```
 
+## Regular Expressions
+
+- ^        Matches the beginning of a line
+- $        Matches the end of the line
+- .        Matches any character
+- \s       Matches whitespace
+- \S       Matches any non-whitespace character
+- *        Repeats a character zero or more times
+- *?       Repeats a character zero or more times (non-greedy)
+- +        Repeats a character one or more times
+- +?       Repeats a character one or more times  (non-greedy)
+- [aeiou]  Matches a single character in the listed set
+- [^XYZ]   Matches a single character not in the listed set
+- [a-z0-9] The set of characters can include a range
+- (        Indicates where string extraction is to start
+- )        Indicates where string extraction is to end
 ## Tips for text search
 - If you search using like and you know there is only one record that matches, ADD Limit 1.
